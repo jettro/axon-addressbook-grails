@@ -1,0 +1,12 @@
+# used to ignore certain files by git
+# mac osx files
+.DS_Store
+# intellij files
+.idea/*
+*.ipr
+*.iws
+*.iml
+# (grails) generated files
+target/*
+out/*
+stacktrace.log
