@@ -15,4 +15,18 @@ class ContactCommandHandlerService {
     contactRepository.save contact
     return contact.identifier.toString()
   }
+
+  def updateContactName(String identifier, String newContactName) {
+    // TODO validate incoming parameters
+    ContactAggregate contact = contactRepository.load(UUID.fromString(identifier))
+    contact.changeName newContactName
+    contactRepository.save contact
+  }
+
+  def removeContact(String identifier) {
+    // TODO validate identifier
+    ContactAggregate contact = contactRepository.load(UUID.fromString(identifier))
+    contact.delete()
+    contactRepository.save contact
+  }
 }

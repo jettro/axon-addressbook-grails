@@ -21,6 +21,11 @@ class ContactAggregate extends AbstractEventSourcedAggregateRoot {
     apply(new ContactNameChangedEvent(name))
   }
 
+  void delete() {
+    apply(new ContactDeletedEvent())
+  }
+
+
   static constraints = {
   }
 
