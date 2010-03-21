@@ -27,6 +27,7 @@ grails.project.dependency.resolution = {
 
     // runtime 'mysql:mysql-connector-java:5.1.5'
     compile 'org.axonframework:axon-core:0.5-SNAPSHOT'
+    runtime 'com.thoughtworks.xstream:xstream:1.3.1'
   }
 
 }
