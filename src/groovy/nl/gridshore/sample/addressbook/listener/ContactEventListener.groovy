@@ -1,6 +1,6 @@
 package nl.gridshore.sample.addressbook.listener
 
-import nl.gridshore.sample.addressbook.Contact
+import nl.gridshore.sample.addressbook.ContactEntry
 import nl.gridshore.sample.addressbook.event.ContactCreatedEvent
 import nl.gridshore.sample.addressbook.event.ContactDeletedEvent
 import nl.gridshore.sample.addressbook.event.ContactNameChangedEvent
@@ -25,18 +25,18 @@ class ContactEventListener implements org.axonframework.core.eventhandler.EventL
     }
 
     private void doHandle(ContactCreatedEvent event) {
-        def contact = new Contact(name: event.name, identifier: event.aggregateIdentifier.toString())
+        def contact = new ContactEntry(name: event.name, identifier: event.aggregateIdentifier.toString())
         contact.save()
     }
 
     private void doHandle(ContactNameChangedEvent event) {
-        Contact foundContact = Contact.findByIdentifier(event.aggregateIdentifier.toString())
+        ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.toString())
         foundContact.name = event.newName
         foundContact.save()
     }
 
     private void doHandle(ContactDeletedEvent event) {
-        Contact foundContact = Contact.findByIdentifier(event.aggregateIdentifier.toString())
+        ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.toString())
         foundContact.delete()
     }
 }
