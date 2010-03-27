@@ -1,5 +1,6 @@
 package nl.gridshore.sample.addressbook.domain
 
+import nl.gridshore.sample.addressbook.event.AddressAddedEvent
 import nl.gridshore.sample.addressbook.event.ContactCreatedEvent
 import nl.gridshore.sample.addressbook.event.ContactDeletedEvent
 import nl.gridshore.sample.addressbook.event.ContactNameChangedEvent
@@ -9,31 +10,46 @@ import org.axonframework.core.DomainEvent
 
 class ContactAggregate extends AbstractEventSourcedAggregateRoot {
 
-  ContactAggregate(String name) {
-    apply(new ContactCreatedEvent(name))
-  }
+    private def addresses = []
 
-  ContactAggregate(UUID identifier) {
-    super(identifier)
-  }
+    ContactAggregate(String name) {
+        apply(new ContactCreatedEvent(name))
+    }
 
-  void changeName(String name) {
-    apply(new ContactNameChangedEvent(name))
-  }
+    ContactAggregate(UUID identifier) {
+        super(identifier)
+    }
 
-  void delete() {
-    apply(new ContactDeletedEvent())
-  }
+    void changeName(String name) {
+        apply(new ContactNameChangedEvent(name))
+    }
+
+    void delete() {
+        apply(new ContactDeletedEvent())
+    }
 
 
-  static constraints = {
-  }
+    void registerAddress(Address address) {
+        // TODO add validation
+        apply(new AddressAddedEvent(address))
+    }
 
-  protected AggregateDeletedEvent createDeletedEvent() {
-    return new ContactDeletedEvent()
-  }
+    protected AggregateDeletedEvent createDeletedEvent() {
+        return new ContactDeletedEvent()
+    }
 
-  protected void handle(DomainEvent domainEvent) {
-    // TODO try to use reflection and the first argument of the methods starting with handle
-  }
+    protected void handle(DomainEvent event) {
+        println "Contact aggregate recevied an event : ${event.class.simpleName}"
+        if (event.class in [AddressAddedEvent]) {
+            doHandle(event)
+        } else {
+            println "Event not supported"
+        }
+    }
+
+    private void doHandle(AddressAddedEvent event) {
+        println "Adding an address to the contact"
+        addresses.add(event.addedAddress)
+    }
+
 }

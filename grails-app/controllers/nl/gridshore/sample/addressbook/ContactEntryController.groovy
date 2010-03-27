@@ -5,7 +5,7 @@ import nl.gridshore.sample.addressbook.contact.ContactCommandHandlerService
 class ContactEntryController {
     def scaffold = ContactEntry
     ContactCommandHandlerService contactCommandHandlerService
-    
+
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
@@ -32,7 +32,7 @@ class ContactEntryController {
             if (params.version) {
                 def version = params.version.toLong()
                 if (contactEntryInstance.version > version) {
-                    
+
                     contactEntryInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'contactEntry.label', default: 'ContactEntry')] as Object[], "Another user has updated this ContactEntry while you were editing")
                     render(view: "edit", model: [contactEntryInstance: contactEntryInstance])
                     return
@@ -72,4 +72,5 @@ class ContactEntryController {
             redirect(action: "list")
         }
     }
+
 }
