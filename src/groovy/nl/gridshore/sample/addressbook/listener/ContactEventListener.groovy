@@ -51,7 +51,8 @@ class ContactEventListener implements org.axonframework.core.eventhandler.EventL
                 contactIdentifier: foundContact.identifier,
                 streetAndNumber: address.streetAndNumber,
                 zipCode: address.zipCode,
-                city: address.city)
+                city: address.city,
+                addressType: event.addressType)
         addressEntry.save()
     }
 }

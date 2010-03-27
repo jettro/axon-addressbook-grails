@@ -28,6 +28,7 @@ class AddressEntryController {
         if (addressEntryInstance.validate()) {
             def foundContact = ContactEntry.findByIdentifier(addressEntryInstance.contactIdentifier)
             contactCommandHandlerService.registerAddress(
+                    addressEntryInstance.addressType,
                     addressEntryInstance.contactIdentifier,
                     addressEntryInstance.streetAndNumber,
                     addressEntryInstance.zipCode,

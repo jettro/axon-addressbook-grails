@@ -1,6 +1,7 @@
 package nl.gridshore.sample.addressbook.contact
 
 import nl.gridshore.sample.addressbook.domain.Address
+import nl.gridshore.sample.addressbook.domain.AddressType
 import nl.gridshore.sample.addressbook.domain.ContactAggregate
 import nl.gridshore.sample.addressbook.repository.ContactRepository
 
@@ -31,10 +32,10 @@ class ContactCommandHandlerService {
         contactRepository.save contact
     }
 
-    def registerAddress(String identifier, String streetNumber, String zipCode, String city) {
+    def registerAddress(AddressType addressType, String identifier, String streetNumber, String zipCode, String city) {
         // TODO add validation
         ContactAggregate contact = contactRepository.load(UUID.fromString(identifier))
-        contact.registerAddress(new Address(city, streetNumber, zipCode))
+        contact.registerAddress(addressType, new Address(city, streetNumber, zipCode))
         contactRepository.save contact
     }
 }

@@ -10,7 +10,7 @@ import org.axonframework.core.DomainEvent
 
 class ContactAggregate extends AbstractEventSourcedAggregateRoot {
 
-    private def addresses = []
+    private def addresses = [:]
 
     ContactAggregate(String name) {
         apply(new ContactCreatedEvent(name))
@@ -29,9 +29,9 @@ class ContactAggregate extends AbstractEventSourcedAggregateRoot {
     }
 
 
-    void registerAddress(Address address) {
+    void registerAddress(AddressType type, Address address) {
         // TODO add validation
-        apply(new AddressAddedEvent(address))
+        apply(new AddressAddedEvent(type, address))
     }
 
     protected AggregateDeletedEvent createDeletedEvent() {
@@ -49,7 +49,7 @@ class ContactAggregate extends AbstractEventSourcedAggregateRoot {
 
     private void doHandle(AddressAddedEvent event) {
         println "Adding an address to the contact"
-        addresses.add(event.addedAddress)
+        addresses[(event.addressType)] = event.addedAddress
     }
 
 }

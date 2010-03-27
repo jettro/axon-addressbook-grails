@@ -1,6 +1,7 @@
 package nl.gridshore.sample.addressbook.event
 
 import nl.gridshore.sample.addressbook.domain.Address
+import nl.gridshore.sample.addressbook.domain.AddressType
 import org.axonframework.core.DomainEvent
 
 /**
@@ -8,8 +9,10 @@ import org.axonframework.core.DomainEvent
  */
 class AddressAddedEvent extends DomainEvent {
     final Address addedAddress;
+    final AddressType addressType
 
-    def AddressAddedEvent(addedAddress) {
+    def AddressAddedEvent(addressType, addedAddress) {
         this.addedAddress = addedAddress
+        this.addressType = addressType
     }
 }
