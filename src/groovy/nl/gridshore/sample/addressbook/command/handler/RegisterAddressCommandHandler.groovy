@@ -4,7 +4,7 @@ import nl.gridshore.sample.addressbook.command.RegisterAddressCommand
 import nl.gridshore.sample.addressbook.domain.Address
 import nl.gridshore.sample.addressbook.domain.ContactAggregate
 import nl.gridshore.sample.addressbook.repository.ContactRepository
-import org.axonframework.core.command.CommandHandler
+import org.axonframework.commandhandling.CommandHandler
 
 /**
  * @author Jettro Coenradie

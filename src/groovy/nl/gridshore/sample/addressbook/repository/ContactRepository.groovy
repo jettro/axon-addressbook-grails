@@ -1,9 +1,9 @@
 package nl.gridshore.sample.addressbook.repository
 
 import nl.gridshore.sample.addressbook.domain.ContactAggregate
-import org.axonframework.core.DomainEvent
-import org.axonframework.core.eventhandler.EventBus
-import org.axonframework.core.repository.eventsourcing.EventSourcingRepository
+import org.axonframework.domain.DomainEvent
+import org.axonframework.eventhandling.EventBus
+import org.axonframework.eventsourcing.EventSourcingRepository
 
 /**
  * @author Jettro Coenradie

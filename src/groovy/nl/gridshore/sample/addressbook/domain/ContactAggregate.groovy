@@ -4,9 +4,9 @@ import nl.gridshore.sample.addressbook.event.AddressAddedEvent
 import nl.gridshore.sample.addressbook.event.ContactCreatedEvent
 import nl.gridshore.sample.addressbook.event.ContactDeletedEvent
 import nl.gridshore.sample.addressbook.event.ContactNameChangedEvent
-import org.axonframework.core.AbstractEventSourcedAggregateRoot
-import org.axonframework.core.AggregateDeletedEvent
-import org.axonframework.core.DomainEvent
+import org.axonframework.domain.AggregateDeletedEvent
+import org.axonframework.domain.DomainEvent
+import org.axonframework.eventsourcing.AbstractEventSourcedAggregateRoot
 
 class ContactAggregate extends AbstractEventSourcedAggregateRoot {
 

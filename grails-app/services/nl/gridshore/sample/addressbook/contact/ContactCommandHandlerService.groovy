@@ -5,7 +5,7 @@ import nl.gridshore.sample.addressbook.command.RegisterAddressCommand
 import nl.gridshore.sample.addressbook.command.RemoveContactCommand
 import nl.gridshore.sample.addressbook.command.UpdateContactCommand
 import nl.gridshore.sample.addressbook.domain.AddressType
-import org.axonframework.core.command.CommandBus
+import org.axonframework.commandhandling.CommandBus
 
 class ContactCommandHandlerService {
 

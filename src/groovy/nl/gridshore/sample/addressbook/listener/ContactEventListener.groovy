@@ -7,12 +7,12 @@ import nl.gridshore.sample.addressbook.event.AddressAddedEvent
 import nl.gridshore.sample.addressbook.event.ContactCreatedEvent
 import nl.gridshore.sample.addressbook.event.ContactDeletedEvent
 import nl.gridshore.sample.addressbook.event.ContactNameChangedEvent
-import org.axonframework.core.Event
+import org.axonframework.domain.Event
 
 /**
  * @author Jettro Coenradie
  */
-class ContactEventListener implements org.axonframework.core.eventhandler.EventListener {
+class ContactEventListener implements org.axonframework.eventhandling.EventListener {
 
     def ContactEventListener(eventBus) {
         eventBus.subscribe this
@@ -23,7 +23,7 @@ class ContactEventListener implements org.axonframework.core.eventhandler.EventL
         if (event.class in [ContactCreatedEvent, ContactNameChangedEvent, ContactDeletedEvent, AddressAddedEvent]) {
             doHandle(event)
         } else {
-            println "Event not supported"
+            println "ContactEventListener : Event not supported"
         }
     }
 
@@ -40,7 +40,13 @@ class ContactEventListener implements org.axonframework.core.eventhandler.EventL
 
     private void doHandle(ContactDeletedEvent event) {
         ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.toString())
+        List<AddressEntry> foundAddresses = AddressEntry.findAllByContactName(foundContact.name)
+
         foundContact.delete()
+
+        foundAddresses.each {address ->
+            address.delete()
+        }
     }
 
     private void doHandle(AddressAddedEvent event) {

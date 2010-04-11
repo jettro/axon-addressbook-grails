@@ -2,7 +2,7 @@ package nl.gridshore.sample.addressbook.event
 
 import nl.gridshore.sample.addressbook.domain.Address
 import nl.gridshore.sample.addressbook.domain.AddressType
-import org.axonframework.core.DomainEvent
+import org.axonframework.domain.DomainEvent
 
 /**
  * @author Jettro Coenradie

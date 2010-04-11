@@ -1,13 +1,13 @@
 import nl.gridshore.sample.addressbook.repository.ContactRepository
-import org.axonframework.core.eventhandler.SimpleEventBus
-import org.axonframework.core.repository.eventsourcing.XStreamEventSerializer
-import org.axonframework.core.repository.eventsourcing.fs.FileSystemEventStore
 import nl.gridshore.sample.addressbook.listener.ContactEventListener
-import org.axonframework.core.command.SimpleCommandBus
 import nl.gridshore.sample.addressbook.command.handler.CreateContactCommandHandler
 import nl.gridshore.sample.addressbook.command.handler.UpdateContactCommandHandler
 import nl.gridshore.sample.addressbook.command.handler.RemoveContactCommandHandler
 import nl.gridshore.sample.addressbook.command.handler.RegisterAddressCommandHandler
+import org.axonframework.commandhandling.SimpleCommandBus
+import org.axonframework.eventhandling.SimpleEventBus
+import org.axonframework.eventstore.fs.FileSystemEventStore
+import org.axonframework.eventstore.XStreamEventSerializer
 
 // Place your Spring DSL code here
 beans = {
