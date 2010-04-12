@@ -6,5 +6,6 @@ class ContactEntry {
     
     static constraints = {
         name(blank:false)
+        identifier(blank:true, nullable:true)
     }
 }

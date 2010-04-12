@@ -3,7 +3,13 @@ package nl.gridshore.sample.addressbook
 import nl.gridshore.sample.addressbook.contact.ContactCommandHandlerService
 
 class ContactEntryController {
-    static navigation = [group:'tabs',order:20]
+    static navigation = [
+            group: 'tabs',
+            order: 20,
+            subItems: [
+                    [group: 'tabs', action: 'create']
+            ]
+    ]
 
     def scaffold = ContactEntry
     ContactCommandHandlerService contactCommandHandlerService
