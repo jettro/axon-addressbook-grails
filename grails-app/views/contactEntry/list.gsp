@@ -24,7 +24,6 @@
 
                             <g:sortableColumn property="name" title="${message(code: 'contactEntry.name.label', default: 'Name')}" />
 
-                            <th>&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,12 +32,10 @@
                         
                           <td><g:link action="show" id="${contactEntryInstance.id}">${fieldValue(bean: contactEntryInstance, field: "id")}</g:link></td>
 
-
                           <td>${fieldValue(bean: contactEntryInstance, field: "identifier")}</td>
 
                           <td>${fieldValue(bean: contactEntryInstance, field: "name")}</td>
 
-                          <td>add images</td>
                         </tr>
                     </g:each>
                     </tbody>

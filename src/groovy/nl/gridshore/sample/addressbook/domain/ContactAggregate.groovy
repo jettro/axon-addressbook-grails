@@ -7,6 +7,8 @@ import nl.gridshore.sample.addressbook.event.ContactNameChangedEvent
 import org.axonframework.domain.AggregateDeletedEvent
 import org.axonframework.domain.DomainEvent
 import org.axonframework.eventsourcing.AbstractEventSourcedAggregateRoot
+import nl.gridshore.sample.addressbook.event.AddressRemovedEvent
+import nl.gridshore.sample.addressbook.event.AddressChangedEvent
 
 class ContactAggregate extends AbstractEventSourcedAggregateRoot {
 
@@ -31,7 +33,15 @@ class ContactAggregate extends AbstractEventSourcedAggregateRoot {
 
     void registerAddress(AddressType type, Address address) {
         // TODO add validation
-        apply(new AddressAddedEvent(type, address))
+        if (addresses.containsKey(type)) {
+            apply(new AddressChangedEvent(type, address))
+        } else {
+            apply(new AddressAddedEvent(type, address))
+        }
+    }
+
+    void removeAddress(AddressType type) {
+        apply(new AddressRemovedEvent(type))
     }
 
     protected AggregateDeletedEvent createDeletedEvent() {
@@ -40,7 +50,7 @@ class ContactAggregate extends AbstractEventSourcedAggregateRoot {
 
     protected void handle(DomainEvent event) {
         println "Contact aggregate recevied an event : ${event.class.simpleName}"
-        if (event.class in [AddressAddedEvent]) {
+        if (event.class in [AddressAddedEvent,AddressRemovedEvent,AddressChangedEvent]) {
             doHandle(event)
         } else {
             println "Event not supported"
@@ -52,4 +62,13 @@ class ContactAggregate extends AbstractEventSourcedAggregateRoot {
         addresses[(event.addressType)] = event.addedAddress
     }
 
+    private void doHandle(AddressRemovedEvent event) {
+        println "Removing address of type ${event.addressType}"
+        addresses.removeEntryForKey(event.addressType)
+    }
+
+    private void doHandle(AddressChangedEvent event) {
+        println "Changing address of type ${event.addressType}"
+        addresses[(event.addressType)] = event.addedAddress
+    }
 }

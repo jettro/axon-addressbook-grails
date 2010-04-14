@@ -8,6 +8,8 @@ import nl.gridshore.sample.addressbook.event.ContactCreatedEvent
 import nl.gridshore.sample.addressbook.event.ContactDeletedEvent
 import nl.gridshore.sample.addressbook.event.ContactNameChangedEvent
 import org.axonframework.domain.Event
+import nl.gridshore.sample.addressbook.event.AddressRemovedEvent
+import nl.gridshore.sample.addressbook.event.AddressChangedEvent
 
 /**
  * @author Jettro Coenradie
@@ -20,7 +22,8 @@ class ContactEventListener implements org.axonframework.eventhandling.EventListe
 
     void handle(Event event) {
         println "Contact event listener recevied an event : ${event.class.simpleName}"
-        if (event.class in [ContactCreatedEvent, ContactNameChangedEvent, ContactDeletedEvent, AddressAddedEvent]) {
+        if (event.class in [ContactCreatedEvent, ContactNameChangedEvent, ContactDeletedEvent,
+                AddressAddedEvent, AddressRemovedEvent, AddressChangedEvent]) {
             doHandle(event)
         } else {
             println "ContactEventListener : Event not supported"
@@ -61,4 +64,26 @@ class ContactEventListener implements org.axonframework.eventhandling.EventListe
                 addressType: event.addressType)
         addressEntry.save()
     }
+
+    private void doHandle(AddressRemovedEvent event) {
+        ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.toString())
+        AddressEntry foundAddress = AddressEntry.findByAddressTypeAndContactIdentifier(event.addressType,foundContact.identifier)
+        if (foundAddress) {
+            foundAddress.delete()
+        }
+    }
+
+    private void doHandle(AddressChangedEvent event) {
+        ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.toString())
+        AddressEntry foundAddress = AddressEntry.findByAddressTypeAndContactIdentifier(event.addressType,foundContact.identifier)
+        Address address = event.addedAddress
+        foundAddress.contactName = foundContact.name
+        foundAddress.contactIdentifier = foundContact.identifier
+        foundAddress.streetAndNumber = address.streetAndNumber
+        foundAddress.zipCode = address.zipCode
+        foundAddress.city = address.city
+        foundAddress.addressType = event.addressType
+        foundAddress.save()
+    }
+
 }

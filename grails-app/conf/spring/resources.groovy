@@ -8,6 +8,7 @@ import org.axonframework.commandhandling.SimpleCommandBus
 import org.axonframework.eventhandling.SimpleEventBus
 import org.axonframework.eventstore.fs.FileSystemEventStore
 import org.axonframework.eventstore.XStreamEventSerializer
+import nl.gridshore.sample.addressbook.command.handler.RemoveAddressCommandHandler
 
 // Place your Spring DSL code here
 beans = {
@@ -22,6 +23,7 @@ beans = {
     updateContactCommandHandler(UpdateContactCommandHandler, ref("contactRepository"), ref("commandBus"))
     removeContactCommandHandler(RemoveContactCommandHandler, ref("contactRepository"), ref("commandBus"))
     registerAddressCommandHandler(RegisterAddressCommandHandler, ref("contactRepository"), ref("commandBus"))
+    removeAddressCommandHandler(RemoveAddressCommandHandler, ref("contactRepository"), ref("commandBus"))
 
     // axon beans
     commandBus(SimpleCommandBus)

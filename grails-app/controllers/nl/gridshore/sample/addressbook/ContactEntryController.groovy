@@ -14,11 +14,20 @@ class ContactEntryController {
     def scaffold = ContactEntry
     ContactCommandHandlerService contactCommandHandlerService
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "POST", delete: "POST", saveAddress: "POST"]
 
     def index = {
         redirect(action: "list", params: params)
     }
+
+    def show = {
+        def contactEntryInstance = ContactEntry.get(params.id)
+        def contactIdentifier = contactEntryInstance.identifier
+        def addressEntriesForContact = AddressEntry.findAllByContactIdentifier(contactIdentifier)
+
+        [addressEntryInstanceList: addressEntriesForContact, contactEntryInstance: contactEntryInstance]
+    }
+
 
     def save = {
         def contactEntryInstance = new ContactEntry(params)
@@ -79,6 +88,41 @@ class ContactEntryController {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'contactEntry.label', default: 'ContactEntry'), params.id])}"
             redirect(action: "list")
         }
+    }
+
+    def registerAddress = {
+        def contactEntryInstance = ContactEntry.get(params.id)
+        def addressEntryInstance = new AddressEntry();
+        addressEntryInstance.contactIdentifier = contactEntryInstance.identifier
+        addressEntryInstance.contactName = contactEntryInstance.name
+        [addressEntryInstance: addressEntryInstance]
+    }
+
+    def saveAddress = {
+        def addressEntryInstance = new AddressEntry(params)
+        if (addressEntryInstance.validate()) {
+            def foundContact = ContactEntry.findByIdentifier(addressEntryInstance.contactIdentifier)
+            contactCommandHandlerService.registerAddress(
+                    addressEntryInstance.addressType,
+                    addressEntryInstance.contactIdentifier,
+                    addressEntryInstance.streetAndNumber,
+                    addressEntryInstance.zipCode,
+                    addressEntryInstance.city)
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'addressEntry.label', default: 'AddressEntry'), addressEntryInstance.city])}"
+            redirect(action: "show", params:[id:foundContact.id])
+        }
+        else {
+            render(view: "registerAddress", model: [addressEntryInstance: addressEntryInstance])
+        }
+    }
+
+    def deleteAddress = {
+        def addressEntryInstance = AddressEntry.get(params.id)
+        if (addressEntryInstance) {
+            contactCommandHandlerService.removeAddress(addressEntryInstance.addressType, addressEntryInstance.contactIdentifier)
+        }
+        def foundContact = ContactEntry.findByIdentifier(addressEntryInstance.contactIdentifier)
+        redirect(action: "show", id: foundContact.id)
     }
 
 }

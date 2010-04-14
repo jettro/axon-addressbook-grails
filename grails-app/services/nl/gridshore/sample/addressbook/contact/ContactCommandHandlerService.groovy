@@ -6,6 +6,7 @@ import nl.gridshore.sample.addressbook.command.RemoveContactCommand
 import nl.gridshore.sample.addressbook.command.UpdateContactCommand
 import nl.gridshore.sample.addressbook.domain.AddressType
 import org.axonframework.commandhandling.CommandBus
+import nl.gridshore.sample.addressbook.command.RemoveAddressCommand
 
 class ContactCommandHandlerService {
 
@@ -34,5 +35,9 @@ class ContactCommandHandlerService {
                         zipCode: zipCode,
                         city: city)
         )
+    }
+
+    def removeAddress(AddressType addressType, String identifier) {
+        commandBus.dispatch(new RemoveAddressCommand(addressType: addressType, identifier: identifier))
     }
 }
