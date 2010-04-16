@@ -46,6 +46,7 @@
         <td>&nbsp;</td>
         <g:sortableColumn property="streetAndNumber" title="${message(code: 'addressEntry.streetAndNumber.label', default: 'Street And Number')}"/>
         <g:sortableColumn property="zipCode" title="${message(code: 'addressEntry.zipCode.label', default: 'Zip Code')}"/>
+        <g:sortableColumn property="city" title="${message(code: 'addressEntry.city.label', default: 'City')}"/>
         <g:sortableColumn property="addressType" title="${message(code: 'addressEntry.addressType.label', default: 'Address Type')}"/>
       </tr>
       </thead>
@@ -57,6 +58,7 @@
           </td>
           <td>${fieldValue(bean: addressEntryInstance, field: "streetAndNumber")}</td>
           <td>${fieldValue(bean: addressEntryInstance, field: "zipCode")}</td>
+          <td>${fieldValue(bean: addressEntryInstance, field: "city")}</td>
           <td>${fieldValue(bean: addressEntryInstance, field: "addressType")}</td>
         </tr>
       </g:each>
