@@ -7,6 +7,8 @@ import nl.gridshore.sample.addressbook.command.UpdateContactCommand
 import nl.gridshore.sample.addressbook.domain.AddressType
 import org.axonframework.commandhandling.CommandBus
 import nl.gridshore.sample.addressbook.command.RemoveAddressCommand
+import org.axonframework.commandhandling.callbacks.FutureCallback
+import org.axonframework.commandhandling.callbacks.NoOpCallback
 
 class ContactCommandHandlerService {
 
@@ -15,7 +17,14 @@ class ContactCommandHandlerService {
     CommandBus commandBus
 
     def createContact(String contactName) {
-        commandBus.dispatch(new CreateContactCommand(newContactName: contactName))
+        FutureCallback<String> callback = new FutureCallback<String>()
+        commandBus.dispatch(new CreateContactCommand(newContactName: contactName), callback)
+        try {
+            String identifier = callback.get()
+            return identifier
+        } catch (InterruptedException e) {
+            throw e
+        }
     }
 
     def updateContactName(String identifier, String newContactName) {

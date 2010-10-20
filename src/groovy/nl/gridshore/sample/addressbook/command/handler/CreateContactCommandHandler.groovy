@@ -4,6 +4,7 @@ import nl.gridshore.sample.addressbook.command.CreateContactCommand
 import nl.gridshore.sample.addressbook.domain.ContactAggregate
 import nl.gridshore.sample.addressbook.repository.ContactRepository
 import org.axonframework.commandhandling.CommandHandler
+import org.axonframework.unitofwork.UnitOfWork
 
 /**
  * @author Jettro Coenradie
@@ -17,10 +18,10 @@ class CreateContactCommandHandler implements CommandHandler<CreateContactCommand
         commandBus.subscribe(CreateContactCommand.class, this)
     }
 
-    Object handle(CreateContactCommand command) {
+    Object handle(CreateContactCommand command, UnitOfWork unitOfWork) {
         println "Handle new contact command for ${command.newContactName}"
         ContactAggregate contact = new ContactAggregate(command.newContactName)
-        contactRepository.save contact
-        return contact.identifier.toString()
+        contactRepository.add contact
+        return contact.identifier.asString()
     }
 }

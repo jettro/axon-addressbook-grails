@@ -31,18 +31,18 @@ class ContactEventListener implements org.axonframework.eventhandling.EventListe
     }
 
     private void doHandle(ContactCreatedEvent event) {
-        def contact = new ContactEntry(name: event.name, identifier: event.aggregateIdentifier.toString())
+        def contact = new ContactEntry(name: event.name, identifier: event.aggregateIdentifier.asString())
         contact.save()
     }
 
     private void doHandle(ContactNameChangedEvent event) {
-        ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.toString())
+        ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.asString())
         foundContact.name = event.newName
         foundContact.save()
     }
 
     private void doHandle(ContactDeletedEvent event) {
-        ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.toString())
+        ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.asString())
         List<AddressEntry> foundAddresses = AddressEntry.findAllByContactName(foundContact.name)
 
         foundContact.delete()
@@ -53,7 +53,7 @@ class ContactEventListener implements org.axonframework.eventhandling.EventListe
     }
 
     private void doHandle(AddressAddedEvent event) {
-        ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.toString())
+        ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.asString())
         Address address = event.addedAddress
         AddressEntry addressEntry = new AddressEntry(
                 contactName: foundContact.name,
@@ -66,7 +66,7 @@ class ContactEventListener implements org.axonframework.eventhandling.EventListe
     }
 
     private void doHandle(AddressRemovedEvent event) {
-        ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.toString())
+        ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.asString())
         AddressEntry foundAddress = AddressEntry.findByAddressTypeAndContactIdentifier(event.addressType,foundContact.identifier)
         if (foundAddress) {
             foundAddress.delete()
@@ -74,7 +74,7 @@ class ContactEventListener implements org.axonframework.eventhandling.EventListe
     }
 
     private void doHandle(AddressChangedEvent event) {
-        ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.toString())
+        ContactEntry foundContact = ContactEntry.findByIdentifier(event.aggregateIdentifier.asString())
         AddressEntry foundAddress = AddressEntry.findByAddressTypeAndContactIdentifier(event.addressType,foundContact.identifier)
         Address address = event.addedAddress
         foundAddress.contactName = foundContact.name

@@ -9,6 +9,7 @@ import org.axonframework.domain.DomainEvent
 import org.axonframework.eventsourcing.AbstractEventSourcedAggregateRoot
 import nl.gridshore.sample.addressbook.event.AddressRemovedEvent
 import nl.gridshore.sample.addressbook.event.AddressChangedEvent
+import org.axonframework.domain.AggregateIdentifier
 
 class ContactAggregate extends AbstractEventSourcedAggregateRoot {
 
@@ -18,7 +19,7 @@ class ContactAggregate extends AbstractEventSourcedAggregateRoot {
         apply(new ContactCreatedEvent(name))
     }
 
-    ContactAggregate(UUID identifier) {
+    ContactAggregate(AggregateIdentifier identifier) {
         super(identifier)
     }
 

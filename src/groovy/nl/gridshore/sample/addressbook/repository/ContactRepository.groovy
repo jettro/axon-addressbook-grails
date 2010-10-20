@@ -4,6 +4,7 @@ import nl.gridshore.sample.addressbook.domain.ContactAggregate
 import org.axonframework.domain.DomainEvent
 import org.axonframework.eventhandling.EventBus
 import org.axonframework.eventsourcing.EventSourcingRepository
+import org.axonframework.domain.AggregateIdentifier
 
 /**
  * @author Jettro Coenradie
@@ -14,11 +15,11 @@ class ContactRepository extends EventSourcingRepository<ContactAggregate> {
         super.setEventBus bus
     }
 
-    protected String getTypeIdentifier() {
+    public String getTypeIdentifier() {
         return "nl.gridshore.sample.addressbook.ContactAggregate";
     }
 
-    protected ContactAggregate instantiateAggregate(UUID uuid, DomainEvent domainEvent) {
-        return new ContactAggregate(uuid);
+    @Override protected ContactAggregate instantiateAggregate(AggregateIdentifier aggregateIdentifier, DomainEvent domainEvent) {
+        return new ContactAggregate(aggregateIdentifier)
     }
 }

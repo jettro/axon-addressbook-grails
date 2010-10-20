@@ -8,7 +8,7 @@ import org.axonframework.domain.DomainEvent
  * @author Jettro Coenradie
  */
 class AddressAddedEvent extends DomainEvent {
-    final Address addedAddress;
+    final Address addedAddress
     final AddressType addressType
 
     def AddressAddedEvent(addressType, addedAddress) {

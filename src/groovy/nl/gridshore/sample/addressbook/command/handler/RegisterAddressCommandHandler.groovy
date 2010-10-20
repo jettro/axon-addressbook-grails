@@ -5,6 +5,8 @@ import nl.gridshore.sample.addressbook.domain.Address
 import nl.gridshore.sample.addressbook.domain.ContactAggregate
 import nl.gridshore.sample.addressbook.repository.ContactRepository
 import org.axonframework.commandhandling.CommandHandler
+import org.axonframework.domain.AggregateIdentifierFactory
+import org.axonframework.unitofwork.UnitOfWork
 
 /**
  * @author Jettro Coenradie
@@ -17,9 +19,9 @@ class RegisterAddressCommandHandler implements CommandHandler<RegisterAddressCom
         commandBus.subscribe(RegisterAddressCommand.class, this)
     }
 
-    Object handle(RegisterAddressCommand command) {
-        ContactAggregate contact = contactRepository.load(UUID.fromString(command.identifier))
+    Object handle(RegisterAddressCommand command, UnitOfWork unitOfWork) {
+        ContactAggregate contact = contactRepository.load(AggregateIdentifierFactory.fromString(command.identifier))
         contact.registerAddress(command.addressType, new Address(command.city, command.streetNumber, command.zipCode))
-        contactRepository.save contact
+//        contactRepository.save contact
     }
 }

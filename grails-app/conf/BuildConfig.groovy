@@ -3,6 +3,9 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 grails.project.dependency.resolution = {
+    pom true
+    useOrigin true
+
     // inherit Grails' default dependencies
     inherits("global") {
         // uncomment to disable ehcache
@@ -17,6 +20,7 @@ grails.project.dependency.resolution = {
         // from public Maven repositories
 //        mavenLocal()
         mavenCentral()
+        mavenRepo "http://oss.sonatype.org/content/groups/public"
         //mavenRepo "http://snapshots.repository.codehaus.org"
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
@@ -26,7 +30,7 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         // runtime 'mysql:mysql-connector-java:5.1.5'
-        compile 'org.axonframework:axon-core:0.5'
+        compile 'org.axonframework:axon-core:0.7-SNAPSHOT'
         runtime 'com.thoughtworks.xstream:xstream:1.3.1'
     }
 }
