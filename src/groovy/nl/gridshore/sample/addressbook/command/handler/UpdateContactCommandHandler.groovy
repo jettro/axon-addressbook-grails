@@ -22,6 +22,6 @@ class UpdateContactCommandHandler implements CommandHandler<UpdateContactCommand
     Object handle(UpdateContactCommand command, UnitOfWork unitOfWork) {
         ContactAggregate contact = contactRepository.load(AggregateIdentifierFactory.fromString(command.identifier))
         contact.changeName command.newNameForContact
-        contactRepository.save contact
+        return Void
     }
 }

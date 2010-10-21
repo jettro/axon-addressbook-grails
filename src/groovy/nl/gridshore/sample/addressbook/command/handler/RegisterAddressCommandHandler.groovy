@@ -22,6 +22,6 @@ class RegisterAddressCommandHandler implements CommandHandler<RegisterAddressCom
     Object handle(RegisterAddressCommand command, UnitOfWork unitOfWork) {
         ContactAggregate contact = contactRepository.load(AggregateIdentifierFactory.fromString(command.identifier))
         contact.registerAddress(command.addressType, new Address(command.city, command.streetNumber, command.zipCode))
-//        contactRepository.save contact
+        return Void
     }
 }

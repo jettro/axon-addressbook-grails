@@ -22,6 +22,6 @@ class RemoveContactCommandHandler implements CommandHandler<RemoveContactCommand
     Object handle(RemoveContactCommand command, UnitOfWork unitOfWork) {
         ContactAggregate contact = contactRepository.load(AggregateIdentifierFactory.fromString(command.identifier))
         contact.delete()
-        contactRepository.save contact
+        return Void
     }
 }
